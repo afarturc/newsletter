@@ -1,0 +1,6 @@
+:scheduler:
+  :schedule:
+    post_publish:
+      cron: "* * * * *"
+      class: "MenusPublishScheduler"
+      queue: "default"

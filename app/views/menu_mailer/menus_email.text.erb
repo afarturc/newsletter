@@ -1,0 +1,13 @@
+Hello There,
+Are you planning to have lunch in the neighborhood today? Check out what the
+restaurants nearby are offering:
+
+<%= @menus.each do |menu| %>
+    <%= menu.restaurant %>
+    <%= mmenu.specialities.each do |speciality| %>
+        <%= speciality.name %>
+    <%= end %>
+<% end %>
+
+Enjoy your meal :)
+See you tomorrow

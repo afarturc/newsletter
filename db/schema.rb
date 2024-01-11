@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_11_094602) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_11_103222) do
   create_table "menus", force: :cascade do |t|
     t.datetime "publish_date"
     t.string "restaurant"
-    t.string "string"
-    t.boolean "published"
+    t.boolean "published", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

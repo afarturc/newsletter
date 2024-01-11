@@ -4,9 +4,8 @@ class MenusPublishScheduler
   include Sidekiq::Worker
 
   def perform
-    menus = Menu.where('publish_at < ?', Time.now)
+    menus = Menu.where('publish_date < ?', Time.now)
                 .where(published: false)
-                .where(schedule: true)
 
     menus.each do |menu|
       menu.publish
@@ -15,7 +14,7 @@ class MenusPublishScheduler
     subscribers = Subscriber.all
 
     subscribers.each do |subscriber|
-      MenuMailer.with(menus: menus, subscriber: subscriber).new_post_email.deliver_now
+      MenuMailer.with(menus: menus, subscriber: subscriber).menus_email.deliver_now
     end
   end
 end

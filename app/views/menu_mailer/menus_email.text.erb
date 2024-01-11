@@ -4,9 +4,9 @@ restaurants nearby are offering:
 
 <%= @menus.each do |menu| %>
     <%= menu.restaurant %>
-    <%= mmenu.specialities.each do |speciality| %>
+    <% menu.specialities.each do |speciality| %>
         <%= speciality.name %>
-    <%= end %>
+    <% end %>
 <% end %>
 
 Enjoy your meal :)

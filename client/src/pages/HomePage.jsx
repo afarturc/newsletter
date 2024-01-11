@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +10,8 @@ import Button from 'react-bootstrap/Button';
 import { createSubscriber } from '../services/NewsletterService';
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
     const [validated, setValidated] = useState(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -25,16 +27,18 @@ export default function HomePage() {
         setValidated(true);
 
         await createSubscriber(formDataObj)
-        .then((response) => response.json())
+        .then((response) => {
+            response.json()
+            console.log(response)
+        })
         .then((data) => {
-            console.log(data);
-            // Handle data
+            navigate('/feedback', {state: {body: "Your are now subscribed to our newsletter.", type: "subscriber"}})
         })
     };
 
     return(
-        <Container>
-        <Row className="justify-content-md-center">
+        <Container className='h-100 d-flex flex-col justify-content-center align-items-center'>
+        <Row className="w-50 text-center">
              <Card>
                 <Card.Body>
                     <Card.Title>Restaurant Newsletter</Card.Title>
@@ -47,7 +51,6 @@ export default function HomePage() {
                                 <Form.Group className="mb-3" controlId="formSubscriber" >
                                     <Form.Control type="email" placeholder="name@example.com" name="email" required/>
                                 </Form.Group>
-
                             </Col>
                             <Col>
                                 <Button variant="primary" type="submit">

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,6 +14,8 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { createMenu } from '../services/NewsletterService';
 
 export default function NewSpecialtiesPage() {
+    const navigate = useNavigate();
+
     const [menu, setMenu] = useState(null)
 
     const [specialities, setSpecialities] = useState([]);
@@ -34,6 +37,7 @@ export default function NewSpecialtiesPage() {
         .then((data) => {
             console.log(data);
             // Handle data
+            navigate('/feedback', {state: {body: `Your specialities for ${menu["publish_date"]} were added to our database.`, type: "menu"}})
         })
     }
 
@@ -58,25 +62,26 @@ export default function NewSpecialtiesPage() {
     };
 
     return(
-        <Container>
+        <Container className='h-100 d-flex justify-content-center align-items-center'>
             <Row className="justify-content-md-center">
-                <Card>
+                <Card className='text-center'>
                 <Card.Body>
                     <Card.Title>Your specialties</Card.Title>
                     <Card.Text>
                         Add your information and daily specialties.
                     </Card.Text>
                     <Form validated={validated} onSubmit={handleSubmit}>
-                        <Form.Group as={Col} md="4" controlId="validationCustom01">
+                        <Form.Group as={Col}>
                             <Form.Label>Date</Form.Label>
                             <Form.Control
                                 required
+                                defaultValue={Date.now()}
                                 name="publish_date"
                                 type="date"
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="4" controlId="validationCustom01">
+                        <Form.Group as={Col} className='mt-4'>
                             <Form.Label>Restaurant Name</Form.Label>
                             <Form.Control
                                 required
@@ -86,12 +91,21 @@ export default function NewSpecialtiesPage() {
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
-                        {specialities && specialities.map((speciality, idx) => {return(
-                            <SpecialityCard key={idx} specialityName={speciality.name}/>
-                        )})}
-                        <Button variant="primary" onClick={() => setOpenAddSpeciality(!openAddSpeciality)}>Add More</Button>
-                        <Button type="submit">Submit</Button>
-                        <Button type="reset">Reset</Button>
+                        <div className='mt-4'>
+                            <p>Specialities</p>
+                            {specialities.size !== 0 ? specialities.map((speciality, idx) => {return(
+                                <SpecialityCard key={idx} specialityName={speciality.name}/>
+                            )}) : <p>You have no specialites...</p>}
+                        </div>
+                        <Col>
+                            <Button variant="primary" onClick={() => setOpenAddSpeciality(!openAddSpeciality)}>Add More</Button>
+                        </Col>
+                        <Col className='mt-5'>
+                            <Button type="submit" variant='primary'>Submit</Button>
+                        </Col>
+                        <Col className='mt-3'>
+                            <Button type="reset" variant='secondary' onClick={() => setSpecialities([])}>Cancel</Button>
+                        </Col>
                     </Form>
                 </Card.Body>
             </Card>

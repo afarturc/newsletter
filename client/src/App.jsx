@@ -5,6 +5,7 @@ import {
 
 import HomePage from "./pages/HomePage";
 import NewSpecialtiesPage from "./pages/NewSpecialtiesPage";
+import FeedbackPage from "./pages/FeedbackPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -16,10 +17,16 @@ function App() {
       path: "/specialities",
       element: <NewSpecialtiesPage />,
     },
+    {
+      path: "/feedback",
+      element: <FeedbackPage />,
+    },
   ]);
 
   return (
-    <RouterProvider router={router} />
+    <main className="main-wrapper">
+      <RouterProvider router={router} />
+    </main>
   )
 }
 
